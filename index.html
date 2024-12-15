@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="header-container">
+    <p class="highhead animated-lethalbots">LETHALBOTS 2024</p>
+    <img src="image/logo.png" class="logo-left" alt="Left Logo">
+    <img src="image/logo.png" class="logo-right" alt="Right Logo">
+  </div>
+
+  <div id="timer">03:00</div>
+  <audio id="endSound" src="image/5sec.mp3" preload="auto"></audio>
+
+  <script>
+    let countdown;
+    let totalTime = localStorage.getItem("totalTime") ? parseInt(localStorage.getItem("totalTime")) : 180;
+    let remainingTime = localStorage.getItem("remainingTime") ? parseInt(localStorage.getItem("remainingTime")) : totalTime;
+
+    const timerDisplay = document.getElementById("timer");
+
+    function displayTime(seconds) {
+      const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${minutes}:${secs}`;
+    }
+
+    function updateTimerState() {
+      const isRunning = localStorage.getItem("isRunning") === "true";
+      if (isRunning) {
+        startTimer();
+      } else {
+        displayTime(remainingTime);
+      }
+    }
+
+    function startTimer() {
+      clearInterval(countdown);
+      countdown = setInterval(() => {
+        if (remainingTime > 0) {
+          remainingTime--;
+          localStorage.setItem("remainingTime", remainingTime);
+          displayTime(remainingTime);
+
+          if (remainingTime === 5) {
+            document.getElementById("endSound").play();
+          }
+        } else {
+          clearInterval(countdown);
+          localStorage.setItem("isRunning", "false");
+        }
+      }, 1000);
+    }
+
+    window.onload = updateTimerState;
+  </script>
+</body>
+</html>
+

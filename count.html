@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer Controls</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="controls">
+    <h1>Timer Controls</h1>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+    <button onclick="openEditModal()">Edit</button>
+  </div>
+
+  <!-- Edit Timer Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Timer</h2>
+      <div class="edit-fields">
+        <label>Hours</label>
+        <input type="number" id="editHours" min="0" value="0">
+
+        <label>Minutes</label>
+        <input type="number" id="editMinutes" min="0" max="59" value="3">
+
+        <label>Seconds</label>
+        <input type="number" id="editSeconds" min="0" max="59" value="0">
+      </div>
+      <div class="modal-buttons">
+        <button onclick="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let countdown;
+    let totalTime = localStorage.getItem("totalTime") ? parseInt(localStorage.getItem("totalTime")) : 180;
+
+    function startTimer() {
+      localStorage.setItem("isRunning", "true");
+      window.location.reload(); // Reload the timer page
+    }
+
+    function pauseTimer() {
+      clearInterval(countdown);
+      localStorage.setItem("isRunning", "false");
+    }
+
+    function resetTimer() {
+      clearInterval(countdown);
+      totalTime = 180;
+      localStorage.setItem("totalTime", totalTime);
+      localStorage.setItem("remainingTime", totalTime);
+      localStorage.setItem("isRunning", "false");
+      window.location.reload(); // Reload the timer page
+    }
+
+    function openEditModal() {
+      document.getElementById("editModal").style.display = "block";
+    }
+
+    function closeEditModal() {
+      document.getElementById("editModal").style.display = "none";
+    }
+
+    function saveEdit() {
+      const hours = parseInt(document.getElementById("editHours").value) || 0;
+      const minutes = parseInt(document.getElementById("editMinutes").value) || 0;
+      const seconds = parseInt(document.getElementById("editSeconds").value) || 0;
+
+      totalTime = hours * 3600 + minutes * 60 + seconds;
+      localStorage.setItem("totalTime", totalTime);
+      localStorage.setItem("remainingTime", totalTime);
+      closeEditModal();
+      resetTimer();
+    }
+  </script>
+</body>
+</html>
