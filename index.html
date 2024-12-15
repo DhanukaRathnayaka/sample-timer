@@ -5,56 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Countdown Timer</title>
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Countdown Timer</h1>
-  <a href="count.html" class="link-button">Go to Another Page</a>
-  <div id="timer">03:00</div>
-  <audio id="endSound" src="audio/5sec.mp3" preload="auto"></audio>
+  <div class="header-container">
+    <p class="highhead animated-lethalbots">LETHALBOTS 2024</p>
+    <img src="image/logo.png" class="logo-left" alt="Left Logo">
+    <img src="image/logo.png" class="logo-right" alt="Right Logo">
+  </div>
+
+  <div id="timer">03:00</div><br><br><br><br><br><br><br>
+  <a href="anotherpage.html">
+    <button>Go to Another Page</button>
+</a>
   
-  <script>
-    const timerDisplay = document.getElementById("timer");
-    const endSound = document.getElementById("endSound");
-
-    let countdown;
-    let remainingTime = localStorage.getItem("remainingTime")
-      ? parseInt(localStorage.getItem("remainingTime"))
-      : 180; // Default 3 minutes
-
-    function displayTime(seconds) {
-      const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const secs = String(seconds % 60).padStart(2, '0');
-      timerDisplay.textContent = `${minutes}:${secs}`;
-    }
-
-    function startTimer() {
-      clearInterval(countdown);
-      countdown = setInterval(() => {
-        if (remainingTime > 0) {
-          remainingTime--;
-          localStorage.setItem("remainingTime", remainingTime);
-          displayTime(remainingTime);
-
-          if (remainingTime === 5) {
-            endSound.play();
-          }
-        } else {
-          clearInterval(countdown);
-          localStorage.setItem("isRunning", "false");
-        }
-      }, 1000);
-    }
-
-    function initTimer() {
-      const isRunning = localStorage.getItem("isRunning") === "true";
-      if (isRunning) {
-        startTimer();
-      } else {
-        displayTime(remainingTime);
-      }
-    }
-
-    window.onload = initTimer;
-  </script>
+  </div>
+  <audio id="endSound" src="image/5sec.mp3" preload="auto"></audio>
+  <script src="js/script.js"></script>
 </body>
 </html>
