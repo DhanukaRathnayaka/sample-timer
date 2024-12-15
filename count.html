@@ -1,62 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timer Controls</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Timer Controls</h1>
-  <button onclick="startTimer()">Start</button>
-  <button onclick="pauseTimer()">Pause</button>
-  <button onclick="resetTimer()">Reset</button>
-  <button onclick="openEditModal()">Edit</button>
+    <button class="edit" onclick="openEditModal()">Edit</button>
+  <button class="reset" onclick="resetTimer()">Reset</button>
+  <button class="start" onclick="startTimer()">Start</button>
+  <button class="pause" onclick="pauseTimer()">Pause</button>
 
   <!-- Edit Timer Modal -->
-  <div id="editModal" class="modal" style="display: none;">
+  <div id="editModal" class="modal">
     <div class="modal-content">
-      <span onclick="closeEditModal()" style="cursor: pointer;">&times;</span>
+      <span class="close" onclick="closeEditModal()">&times;</span>
       <h2>Edit Timer</h2>
-      <label>Minutes: <input type="number" id="editMinutes" min="0" value="3"></label>
-      <label>Seconds: <input type="number" id="editSeconds" min="0" max="59" value="0"></label>
-      <button onclick="saveEdit()">Save</button>
+      <div class="edit-fields">
+        <label>Hours</label>
+        <input type="number" id="editHours" min="0" value="0">
+
+        <label>Minutes</label>
+        <input type="number" id="editMinutes" min="0" max="59" value="3">
+
+        <label>Seconds</label>
+        <input type="number" id="editSeconds" min="0" max="59" value="0">
+      </div>
+      <div class="modal-buttons">
+        <button class="save" onclick="saveEdit()">Save</button>
+        <button class="reset" onclick="resetEdit()">Reset</button>
+      </div>
     </div>
-  </div>
-
-  <script>
-    function startTimer() {
-      localStorage.setItem("isRunning", "true");
-      window.location.href = "timer.html";
-    }
-
-    function pauseTimer() {
-      localStorage.setItem("isRunning", "false");
-    }
-
-    function resetTimer() {
-      localStorage.setItem("remainingTime", "180");
-      localStorage.setItem("isRunning", "false");
-      window.location.href = "timer.html"; // Reload timer page to reflect reset
-    }
-
-    function openEditModal() {
-      document.getElementById("editModal").style.display = "block";
-    }
-
-    function closeEditModal() {
-      document.getElementById("editModal").style.display = "none";
-    }
-
-    function saveEdit() {
-      const minutes = parseInt(document.getElementById("editMinutes").value) || 0;
-      const seconds = parseInt(document.getElementById("editSeconds").value) || 0;
-      const newTime = minutes * 60 + seconds;
-
-      localStorage.setItem("remainingTime", newTime);
-      localStorage.setItem("isRunning", "false");
-      closeEditModal();
-    }
-  </script>
+    <audio id="endSound" src="image/5sec.mp3" preload="auto"></audio>
 </body>
 </html>
